@@ -1,0 +1,144 @@
+NetWorkSpaces Server
+--------------------
+
+  NetWorkSpaces (NWS) is a powerful, open-source software package that
+  makes it easy to use clusters from within scripting languages like
+  Python, R, and Matlab.  It uses a Space-based approach, similar to
+  JavaSpaces (TM) for example, that makes it easier to write distributed
+  applications.
+
+
+Installation
+------------
+
+  NetWorkSpaces Server requires that you have:
+  
+      Python version 2.2 or later.
+      Twisted 2.1 and Twisted-Web 0.5 or later.
+  
+  It is distributed as a Python source distribution, using the standard
+  Python distribution utilities.  The full installation instructions are
+  in the INSTALL file that is included in the source distribution, but
+  here's a quick summary of the "System Installation":
+
+       % tar xzf nwsserver-1.6.X.tar.gz
+       % cd nwsserver-1.6.X
+       % python setup.py install
+
+  You'll probably need to use a privileged account to do this.  If you
+  don't want to (or can't) do that, you can use some options to install
+  into a different location.  To get help on the install options,
+  execute the command:
+
+      % python setup.py install --help
+
+
+Starting the NetWorkSpaces server (System Installation)
+-------------------------------------------------------
+
+  To start the NetWorkSpaces server, you can execute it using the twistd
+  command, as follows:
+
+      % twistd -ny /etc/nws.tac > nws.log 2>&1 &
+
+  or, if you're using a csh compatible shell:
+
+      % twistd -ny /etc/nws.tac >& nws.log &
+
+  which runs as the current user.  See the twistd man page for more
+  information.
+
+  To use different ports (as discussed in the Configuration section of
+  the INSTALL file), just set the appropriate environment variables
+  before executing twistd:
+
+      % NWS_SERVER_PORT=9765; export NWS_SERVER_PORT
+      % NWS_WEB_PORT=9766; export NWS_WEB_PORT
+
+  or, if you're using a csh compatible shell:
+
+      % setenv NWS_SERVER_PORT 9765
+      % setenv NWS_WEB_PORT 9766
+
+  To shutdown the NetWorkSpaces server, you have to kill it by sending a
+  SIGTERM signal at it.  The twistd command creates a file that contains
+  the process id of the server, so you can shut it down with the
+  following command:
+
+      % kill `cat twistd.pid`
+  
+  You could also use the nwsserver command.  Just copy it somewhere in
+  your PATH, and execute the following command:
+
+      % nwsserver start
+
+  If you start the NetWorkSpaces server using the nwsserver command,
+  you can shut it down using the command:
+
+      % nwsserver stop
+
+  The nwsserver command can be set up for use as an init script on some
+  systems, but that is not documented at this time.
+
+
+Starting the NetWorkSpaces server (Private Installation)
+--------------------------------------------------------
+
+  To start the NetWorkSpaces server with a private installation,
+  you can execute it using the twistd command, as follows:
+
+      % twistd -ny $HOME/etc/nws.tac > nws.log 2>&1 &
+
+  or, if you're using a csh compatible shell:
+
+      % twistd -ny $HOME/etc/nws.tac >& nws.log &
+
+  Shutting down is the same as for a system installation:
+
+      % kill `cat twistd.pid`
+  
+  You can also use the nwsserver command, which you could copy to a
+  directory in your PATH, such as $HOME/bin, and execute as follows:
+
+      % nwsserver start
+
+  and shut it down with:
+
+      % nwsserver stop
+
+
+Web Interface
+-------------
+
+  The NetWorkSpaces server includes a builtin web interface that allows
+  you to browser the workspaces.  To view from your local machine, open
+  the following URL with a web browser:
+
+      http://localhost:8766/
+
+  or use the appropriate host name if coming from a different machine.
+
+
+Babelfish
+---------
+
+  In order to examine the values of a workspace using the server's web
+  interface, you'll usually need to have a babelfish running.  The
+  babelfish translates the values into a human readable format.  If a
+  value is a string, then the web interface simply displays the contents
+  of the string, without any help from a babelfish.  But if the value is
+  any other type of object, it needs the help of a babelfish.  For this
+  reason, the babelfish are packaged with the client distributions, and
+  are not included with the NetWorkSpaces server.  But since the
+  babelfish relate to the web interface (which is part of the server),
+  it's something that you should be aware of when setting up the server.
+
+
+Using NetWorkSpaces
+-------------------
+
+  The server alone doesn't really do anything: you need to install one
+  of the client packages to actually do something useful with
+  NetWorkSpaces.  There are currently client packages available for
+  python, R, and Matlab.  See http://www.lindaspaces.com/ for more
+  information.
