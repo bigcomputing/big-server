@@ -1,10 +1,10 @@
 Metadata-Version: 1.0
-Name: nwsserver
+Name: bangsever
 Version: 2.0.0
 Summary: Python NetWorkSpaces Server
-Home-page: http://nws-py.sourceforge.net/
-Author: REvolution Computing, Inc.
-Author-email: sbweston@users.sourceforge.net
+Home-page: http:///
+Author: REvolution Computing, Inc., Patrick Shields, Stephen Weston
+Author-email: pat@bigcomputing.com
 License: GPL version 2 or later
 Description: NetWorkSpaces (NWS) is a system that makes it very easy
         for different scripts and programs running (potentially) on
