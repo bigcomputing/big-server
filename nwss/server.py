@@ -632,7 +632,7 @@ class NwsService(protocol.ServerFactory):
 
         # list the variables
         try:
-            bindings = workspace._get_bindings()
+            bindings = workspace._get_bindings(hide=True)
             varkeys = bindings.keys()
             varkeys.sort()
             var_listing = '\n'.join([bindings[var_name].format()
