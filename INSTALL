@@ -21,7 +21,7 @@ Unix Installation (including Linux and Mac OS/X)
   Once you've installed Twisted, you're ready to install NetWorkSpaces.
   First, untar and build the distribution:
 
-      % tar xzvf bangserver-x.y.tar.gz
+      % tar xzvf big-server-x.y.tar.gz
       % python setup.py build
 
   You can do this as an unprivileged user, even if you plan to install

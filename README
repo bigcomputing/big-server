@@ -21,8 +21,8 @@ Installation
   in the INSTALL file that is included in the source distribution, but
   here's a quick summary of the "System Installation":
 
-       % tar xzf bangserver-x.y.z.tar.gz
-       % cd nwsserver-x.y.z
+       % tar xzf big-server-x.y.z.tar.gz
+       % cd big-server-x.y.z
        % python setup.py install
 
   You'll probably need to use a privileged account to do this.  If you
