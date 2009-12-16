@@ -241,8 +241,7 @@ def infopage_var_deleted(ws_name, var_name):
             (quote_plus(ws_name), quote_plus(var_name))
     return make_infopage(message,
                     'Variable Deleted',
-                    refresh_url=refresh_url,
-                    wsname=ws_name)
+                    refresh_url=refresh_url)
 
 def infopage_var_fetched(ws_name, var_name):
     """Build an HTML info page indicating that the variable ``var_name`` has
@@ -564,8 +563,7 @@ class NwsWebDynamic(resource.Resource):
         }
         content = CONFIRM_DELETE_VAR_TEMPLATE % fields
         return make_page('Confirm Variable Deletion',
-                         content,
-                         menu=make_menu(menu_provider_ws(ws_name)))
+                         content)
 
     def __confirm_delete_ws(self, request):
         #pylint: disable-msg=R0201
@@ -607,7 +605,7 @@ class NwsWebDynamic(resource.Resource):
             return errpage_variable_not_found(var_name, ws_name)
 
         use_workspace(self.nws_server, self.dummy_conn, ws_name)
-        self.nws_server.delete_var(self.dummy_conn,
+        self.nws_server.cmd_delete_var(self.dummy_conn,
                                    'delete var',
                                    ws_name,
                                    var_name)
