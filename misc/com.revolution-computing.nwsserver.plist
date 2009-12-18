@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>Label</key>
+        <string>com.revolution-computing.nwsserver</string>
+        <key>ProgramArguments</key>
+        <array>
+                <string>/usr/bin/python</string>
+                <string>/usr/local/bin/twistd</string>
+                <string>--syslog</string>
+                <string>--prefix</string>
+                <string>nwsserver</string>
+                <string>--pidfile</string>
+                <!-- Named to prevent conflicts with servers on different ports -->
+                <string>nwsserver_8765.pid</string>
+                <string>--nodaemon</string>
+                <string>--python</string>
+                <string>/etc/nws.tac</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>EnvironmentVariables</key>
+        <dict>
+                <!-- Put the correct version of twisted in our path -->
+                <key>PYTHONPATH</key>
+                <string>/Library/Python/2.5/site-packages</string>
+                <!-- Tell nws.tac not to change the uid/gid if running as root -->
+                <key>NWS_NO_SETUID</key>
+                <string>true</string>
+                <!-- Port number of the nws server -->
+                <key>NWS_SERVER_PORT</key>
+                <string>8765</string>
+                <!-- Port number of the web interface -->
+                <key>NWS_WEB_PORT</key>
+                <string>8766</string>
+                <!-- Can be used to bind to a specific interface, such as localhost -->
+                <key>NWS_INTERFACE</key>
+                <string></string>
+                <!-- Tell nws.tac to use the same tmp directory as used here -->
+                <key>NWS_TMP_DIR</key>
+                <string>/private/tmp</string>
+        </dict>
+        <key>UserName</key>
+        <string>nobody</string>
+        <key>GroupName</key>
+        <string>nogroup</string>
+        <key>WorkingDirectory</key>
+        <string>/private/tmp</string>
+</dict>
+</plist>

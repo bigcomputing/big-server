@@ -1,0 +1,121 @@
+#!/bin/sh
+#
+# Copyright (c) 2005-2008, REvolution Computing, Inc.
+#
+# NetWorkSpaces is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as published
+# by the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+# USA
+#
+
+### BEGIN INIT INFO
+# Provides:          nwsserver
+# Required-Start:    $local_fs $remote_fs $network $named
+# Required-Stop:     $local_fs $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: NWS server, providing access to shared workspaces.
+# Description:       The NWS server enables multiple independent
+#   applications written in scripting languages to share data and
+#   coordinate their computations.  Client support currently exists
+#   for R, Python, and Matlab.
+### END INIT INFO
+
+### CONFIGURATION SECTION ###
+NWS_BASE=""
+NWS_INSTALL=""
+if [ "`id -u`" = "0" ]
+then
+    NWS_PID="$NWS_BASE/var/run/nws.pid"
+    NWS_LOG="$NWS_BASE/var/log/nws.log"
+else
+    NWS_PID=$HOME/nws.pid
+    NWS_LOG=$HOME/nws.log
+fi
+NWS_TAC="$NWS_INSTALL/etc/nws.tac"
+TWISTD=/usr/bin/twistd
+WORKDIR=/tmp
+# PYTHONPATH=${PYTHONPATH:+$PYTHONPATH:}$NWS_INSTALL/lib/python
+# export PYTHONPATH
+### END OF CONFIGURATION SECTION ###
+
+if [ ! -e $NWS_TAC ]
+then
+    NWS_TAC=/etc/nws.tac
+fi
+
+if [ ! -e $NWS_TAC ]
+then
+    NWS_TAC=$HOME/nws.tac
+fi
+
+if [ ! -e $NWS_TAC ]
+then
+    echo "NWS .tac file $NWS_TAC not found!" >&2
+    exit 1
+fi
+
+case $# in
+0)
+    echo "usage: $0 [start|stop]" 1>&2
+    exit 1
+    ;;
+esac
+
+case "$1" in
+start)
+    # Let twistd handle existing pid files
+    /bin/rm -f $NWS_LOG
+    echo -n "Starting the NWS server"
+    if $TWISTD -o -d $WORKDIR -l $NWS_LOG --pidfile $NWS_PID -y $NWS_TAC
+    then
+        echo "."
+    else
+        echo " (failed)."
+        exit 1
+    fi
+    ;;
+stop)
+    if [ ! -e $NWS_PID ]
+    then
+        echo "$NWS_PID file doesn't exist: is the server really running?" 1>&2
+        exit 1
+    fi
+    echo -n "Stopping the NWS server"
+    kill `cat $NWS_PID` 2> /dev/null
+    # XXX I think we might need to do this due to priviledge shedding issues
+    /bin/rm -f $NWS_PID
+    echo "."
+    ;;
+force-reload|restart)
+    echo -n "Restarting the NWS server"
+    kill `cat $NWS_PID` 2> /dev/null
+    sleep 3
+    /bin/rm -f $NWS_PID
+    /bin/rm -f $NWS_LOG
+    echo -n "Starting the NWS server"
+    if $TWISTD -o -d $WORKDIR -l $NWS_LOG --pidfile $NWS_PID -y $NWS_TAC
+    then
+        echo "."
+    else
+        echo " (failed)."
+        exit 1
+    fi
+    ;;
+*)
+    echo "usage: $0 [start|stop]" 1>&2
+    exit 1
+    ;;
+esac
+
+exit 0

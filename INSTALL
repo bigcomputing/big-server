@@ -1,0 +1,98 @@
+Requirements
+------------
+
+  Python 2.2 or later.
+  Twisted 2.1 and Twisted-Web 0.5 or later.
+
+  Twisted is available from:
+      http://www.twistedmatrix.com/
+
+  Twisted itself requires:
+      Zope Interfaces 3.0.1 (http://zope.org/Products/ZopeInterface)
+
+  If you download the TwistedSumo tarball from the Twisted web site, it
+  includes the core distribution, Twisted-Web, and Zope Interfaces, as
+  well as many other Twisted projects that aren't used by NetWorkSpaces.
+
+
+Unix Installation (including Linux and Mac OS/X)
+------------------------------------------------
+
+  Once you've installed Twisted, you're ready to install NetWorkSpaces.
+  First, untar and build the distribution:
+
+      % tar xzvf big-server-x.y.tar.gz
+      % python setup.py build
+
+  You can do this as an unprivileged user, even if you plan to install
+  it as root.
+
+  Note that on SuSE Linux systems (and perhaps other RPM-based systems)
+  you may to install the "python-devel" package in order to install
+  python source distributions.  On Debian systems, you need the
+  "python-dev" package.
+
+
+System Installation
+-------------------
+
+  To do a system wide installation, su to root, and execute the
+  following command:
+
+      # python setup.py install
+
+  This will add the nws python package to your python installation, and
+  copy the nws.tac file to /etc.  nws.tac is a "Twisted Application
+  Configuration" (TAC) file, which is actually python source.  It is
+  used by the twistd command to start the NetWorkSpaces server.
+
+  The distribution includes a Unix-style init script, called "nws" that
+  is in the misc directory.  It is not installed automatically, as
+  systems differ on how that needs to be done.
+
+
+Private Installation
+--------------------
+
+  To do a private installation, say into your home directory, you can
+  execute the following command:
+
+      % python setup.py install --home $HOME
+
+  This will copy the nws python package to the directory:
+
+      $HOME/lib/python
+
+  You may want to put this directory into your PYTHONPATH environment
+  variable so that python will be able to find it when starting the
+  server.
+
+  The nws.tac file is copied to:
+
+      $HOME/nws.tac
+
+
+Configuration
+-------------
+
+  There is very little that can be configured in the NetWorkSpaces
+  server, and there may be nothing that needs to be configured.  Unless
+  you want to run multiple servers on one machine, you can probably
+  ignore configuration, and skip to the next section now.
+
+  To run multiple servers on one machine, you'll need to configure
+  the server and web interface ports to be different.  This can be done
+  by editing the TAC file, nws.tac, which is python code.  An
+  alternative is to set some environment variables.  The following
+  environment variables are used:
+
+      NWS_SERVER_PORT       Port that nws server binds to.  The default
+                            value is 8765.
+      NWS_WEB_PORT          Port that web interface binds to.  The default
+                            value is 8766.
+      NWS_INTERFACE         The name of the network interface that the
+                            server should bind to.  The default is '',
+                            which means to bind to all network
+                            interfaces.  The value 'localhost' will
+                            prevent remote machines from connecting to
+                            the server.
