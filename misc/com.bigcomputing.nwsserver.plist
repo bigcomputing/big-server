@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
         <key>Label</key>
-        <string>com.revolution-computing.nwsserver</string>
+        <string>com.bigcomputing.nwsserver</string>
         <key>ProgramArguments</key>
         <array>
                 <string>/usr/bin/python</string>
